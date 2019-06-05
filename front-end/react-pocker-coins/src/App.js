@@ -20,7 +20,7 @@ class App extends Component {
         accessor: "amount"
       }
     ];
-    this.eventSource = new EventSource("coins");
+    this.eventSource = new EventSource("http://localhost:5000/coins");
   }
 
 
@@ -31,8 +31,8 @@ class App extends Component {
 
   updateAmountState(amountState) {
     let newData = this.state.data.map(item => {
-      if (item.amount === amountState.amount) {
-        item.state = amountState.state;
+      if (item.player === amountState.player) {
+        item.amount = amountState.amount;
       }
       return item;
     });
