@@ -4,6 +4,13 @@ http
   .createServer((request, response) => {
     console.log("Requested url: " + request.url);
 
+    request.on("close", () => {
+      if (!response.finished) {
+        response.end();
+        console.log("Stopped sending events.");
+      }
+    });
+
     if (request.url.toLowerCase() === "/coins") {
       response.writeHead(200, {
         Connection: "keep-alive",
