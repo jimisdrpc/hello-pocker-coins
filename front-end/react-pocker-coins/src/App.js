@@ -31,6 +31,12 @@ class App extends Component {
     this.eventSource.addEventListener("removePlayer", e =>
       this.removePlayer(JSON.parse(e.data))
     );
+
+    this.eventSource.addEventListener("closedConnection", e => this.stopGame());
+  }
+
+  stopGame() {
+    this.eventSource.close();
   }
 
   updateAmountState(amountState) {
@@ -54,6 +60,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <button onClick={() => this.stopGame()}>Stop game</button>
         <ReactTable data={this.state.data} columns={this.columns} />
       </div>
     );
