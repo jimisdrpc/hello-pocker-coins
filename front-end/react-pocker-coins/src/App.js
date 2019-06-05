@@ -23,10 +23,14 @@ class App extends Component {
     this.eventSource = new EventSource("http://localhost:5000/coins");
   }
 
-
   componentDidMount() {
-    this.eventSource.onmessage = e =>
-      this.updateAmountState(JSON.parse(e.data));
+    this.eventSource.addEventListener("updateAmountState", e =>
+      this.updateAmountState(JSON.parse(e.data))
+    );
+
+    this.eventSource.addEventListener("removePlayer", e =>
+      this.removePlayer(JSON.parse(e.data))
+    );
   }
 
   updateAmountState(amountState) {
@@ -36,6 +40,13 @@ class App extends Component {
       }
       return item;
     });
+
+    this.setState(Object.assign({}, { data: newData }));
+  }
+  removePlayer(player) {
+    const newData = this.state.data.filter(
+      item => item.player !== player.player
+    );
 
     this.setState(Object.assign({}, { data: newData }));
   }
