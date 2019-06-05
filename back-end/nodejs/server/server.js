@@ -13,14 +13,24 @@ http
       });
 
       setTimeout(() => {
+        response.write("event: updateAmountState\n");
         response.write('data: {"player": "Player1", "amount": "90"}');
         response.write("\n\n");
-      }, 3000);
+      }, 2000);
 
       setTimeout(() => {
+        response.write("event: updateAmountState\n");
         response.write('data: {"player": "Player2", "amount": "95"}');
         response.write("\n\n");
+      }, 4000);
+
+      setTimeout(() => {
+        response.write("event: removePlayer\n");
+        response.write('data: {"player": "Player2"}');
+        response.write("\n\n");
       }, 6000);
+
+
     } else {
       response.writeHead(404);
       response.end();
