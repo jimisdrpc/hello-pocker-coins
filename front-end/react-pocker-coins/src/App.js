@@ -1,70 +1,21 @@
 import React, { Component } from "react";
-import ReactTable from "react-table";
-import "react-table/react-table.css";
-import { getInitialCoinsData } from "./DataProvider";
-
+import "./App.css";
+import { Link } from "react-router-dom";
+import "./player-app.js";
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: getInitialCoinsData()
-    };
-
-    this.columns = [
-      {
-        Header: "Player",
-        accessor: "player"
-      },
-      {
-        Header: "Amount",
-        accessor: "amount"
-      }
-    ];
-    this.eventSource = new EventSource("http://localhost:5000/coins");
-  }
-
-  componentDidMount() {
-    this.eventSource.addEventListener("updateAmountState", e =>
-      this.updateAmountState(JSON.parse(e.data))
-    );
-
-    this.eventSource.addEventListener("removePlayer", e =>
-      this.removePlayer(JSON.parse(e.data))
-    );
-
-    this.eventSource.addEventListener("closedConnection", e => this.stopGame());
-  }
-
-  stopGame() {
-    this.eventSource.close();
-  }
-
-  updateAmountState(amountState) {
-    let newData = this.state.data.map(item => {
-      if (item.player === amountState.player) {
-        item.amount = amountState.amount;
-      }
-      return item;
-    });
-
-    this.setState(Object.assign({}, { data: newData }));
-  }
-  removePlayer(player) {
-    const newData = this.state.data.filter(
-      item => item.player !== player.player
-    );
-
-    this.setState(Object.assign({}, { data: newData }));
-  }
-
   render() {
     return (
-      <div className="App">
-        <button onClick={() => this.stopGame()}>Stop game</button>
-        <ReactTable data={this.state.data} columns={this.columns} />
-      </div>
+      <React.Fragment>
+        <div className="App">
+          <p className="App-intro">
+            <Link to="/game">Game</Link>
+          </p>
+        </div>
+        <div className="App">
+          <player-app />
+        </div>
+      </React.Fragment>
     );
   }
 }
-
 export default App;
