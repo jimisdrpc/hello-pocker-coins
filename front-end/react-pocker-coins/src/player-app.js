@@ -1,3 +1,5 @@
+import "./game-player.js";
+
 const template = document.createElement("template");
 template.innerHTML = `
 <h1>Players</h1>
@@ -34,11 +36,19 @@ class PlayerApp extends HTMLElement {
 
   _renderPlayerList() {
     this.$playersList.innerHTML = "";
+
     this._players.forEach((player, index) => {
-      let $playerItem = document.createElement("div");
-      $playerItem.innerHTML = player.text;
-      this.$playersList.appendChild($playerItem);
+      let $gamePlayer = document.createElement("game-player");
+      $gamePlayer.setAttribute("text", player.text);
+      this.$playersList.appendChild($gamePlayer);
     });
+
+    // this.$playersList.innerHTML = "";
+    // this._players.forEach((player, index) => {
+    //   let $playerItem = document.createElement("div");
+    //   $playerItem.innerHTML = player.text;
+    //   this.$playersList.appendChild($playerItem);
+    // });
   }
 
   set players(value) {
